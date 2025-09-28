@@ -51,13 +51,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # optional: log in immediately after registration
-            messages.success(request, 'Account created successfully! You can now login.')
-            return redirect('dashboard')  # redirect to dashboard after registration
+            login(request, user)  # log in immediately
+            messages.success(request, 'Account created successfully! Welcome!')
+            return redirect('dashboard')  # make sure this matches your urls.py
     else:
         form = UserCreationForm()
     return render(request, 'alerts/register.html', {'form': form})
-
 
 
 from .models import Alert
