@@ -46,6 +46,11 @@ def home(request):
 # -------------------------------
 # Register view
 # -------------------------------
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib import messages
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -53,11 +58,14 @@ def register(request):
             user = form.save()
             login(request, user)  # log in immediately
             messages.success(request, 'Account created successfully! Welcome!')
-            return redirect('dashboard')  # make sure this matches your urls.py
+            return redirect('dashboard')  # Make sure 'dashboard' exists in urls.py
+        else:
+            # Pass errors to template
+            messages.error(request, 'Please fix the errors below.')
     else:
         form = UserCreationForm()
+    
     return render(request, 'alerts/register.html', {'form': form})
-
 
 from .models import Alert
 
